@@ -70,29 +70,51 @@ class MainWindow:
 
         S1=(self.Username.get())
         S2=(self.Password.get())
-        cnt=0
         f=open("ID.csv","r")
-        wr=csv.reader(f)    
-        for row in wr:
-            if S1 == "1":
-                if S2 == "2":    
+        wr=csv.reader(f)   
+        rows = list(wr)
+        cnt=0
+        for row in rows:
+
+            ll=len(row)
+            if ll == 2:
+                print(row)
+                if S1 == row[0] and S2 == row[1]:
                     cnt+=1
-                else:
-                    cnt+=0
+            else:
+                print("EMPTY")
         if cnt==0:
                 tkinter.messagebox.askretrycancel("HOSPITAL MANAGEMENT SYSTEM" , "PLEASE ENTER VALID USERNAME AND PASSWORD")
         else:
             self.newWindow = Toplevel(self.master)
             self.app = Menu(self.newWindow) 
+        f.close()
     def idcreate(self):
         S1=(self.Username.get())
         S2=(self.Password.get())
-        f=open("ID.csv","a")
-        wr=csv.writer(f)
-        id=[S1,S2]
-        wr.writerow(id)
-        tkinter.messagebox.askokcancel("HOSPITAL MANAGEMENT SYSTEM" , "ID CREATED")
+        f=open("ID.csv","r")
+        wr=csv.reader(f)   
+        rows = list(wr)
+        cnt=0
+        for row in rows:
 
+            ll=len(row)
+            if ll == 2:
+                print(row)
+                if S1 == row[0] and S2 == row[1]:
+                    cnt+=1
+            else:
+                print("EMPTY")
+        if cnt==0:
+            f=open("ID.csv","a",newline='\n')
+            wr=csv.writer(f)
+            id=[S1,S2]
+            wr.writerow(id)
+            tkinter.messagebox.askokcancel("HOSPITAL MANAGEMENT SYSTEM" , "ID CREATED")       
+        else:
+            tkinter.messagebox.askretrycancel("HOSPITAL MANAGEMENT SYSTEM" , "ID ALREADY EXISTS ") 
+        f.close()
+ 
     #Function for Exit
     def Exit(self):
         self.master.destroy()
